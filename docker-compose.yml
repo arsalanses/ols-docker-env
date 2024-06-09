@@ -1,7 +1,6 @@
-version: '3'
 services:
   mysql:
-    image: mariadb:10.5.9
+    image: hub.hamdocker.ir/mariadb:10.5.9
     logging:
       driver: none
     command: ["--max-allowed-packet=512M"]
@@ -15,8 +14,10 @@ services:
     restart: always
     networks:
       - default
+
   litespeed:
-    image: litespeedtech/openlitespeed:${OLS_VERSION}-${PHP_VERSION}
+    image: hub.hamdocker.ir/litespeedtech/openlitespeed:${OLS_VERSION}-${PHP_VERSION}
+    build: ./custom
     container_name: litespeed
     env_file:
       - .env
@@ -37,8 +38,9 @@ services:
       TZ: ${TimeZone}
     networks:
       - default
+
   phpmyadmin:
-    image: bitnami/phpmyadmin:5.2.0-debian-11-r43
+    image: hub.hamdocker.ir/bitnami/phpmyadmin:5.2.0-debian-11-r43
     ports:
       - 8080:8080
       - 8443:8443
@@ -47,19 +49,21 @@ services:
     restart: always
     networks:
       - default
+
   redis:
-    image: "redis:alpine"
+    image: hub.hamdocker.ir/redis:7.2-alpine
     logging:
       driver: none
-    # command: redis-server --requirepass 8b405f60665e48f795752e534d93b722
+      # command: redis-server --requirepass 8b405f60665e48f795752e534d93b722
     volumes:
       - ./redis/data:/var/lib/redis
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      # - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
     restart: always
     networks:
       - default
+
 networks:
   default:
     driver: bridge
