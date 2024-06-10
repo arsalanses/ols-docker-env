@@ -1,8 +1,8 @@
 services:
   mysql:
     image: hub.hamdocker.ir/mariadb:10.5.9
-    logging:
-      driver: none
+    # logging:
+    #   driver: none
     command: ["--max-allowed-packet=512M"]
     volumes:
       - "./data/db:/var/lib/mysql:delegated"
@@ -40,7 +40,7 @@ services:
       - default
 
   phpmyadmin:
-    image: hub.hamdocker.ir/bitnami/phpmyadmin:5.2.0-debian-11-r43
+    image: hub.hamdocker.ir/bitnami/phpmyadmin:5.2.1
     ports:
       - 8080:8080
       - 8443:8443
@@ -52,9 +52,9 @@ services:
 
   redis:
     image: hub.hamdocker.ir/redis:7.2-alpine
-    logging:
-      driver: none
-      # command: redis-server --requirepass 8b405f60665e48f795752e534d93b722
+    # logging:
+    #   driver: none
+    # command: redis-server --requirepass 8b405f60665e48f795752e534d93b722
     volumes:
       - ./redis/data:/var/lib/redis
       # - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
